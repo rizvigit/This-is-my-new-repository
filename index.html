@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Weight of What You Learned</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400&display=swap');
+
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --warmth: #d4a574;
+    --light: #f5e6d3;
+    --crack-gold: #e8c547;
+    --text-primary: #e8e0d8;
+    --text-dim: #6b6560;
+    --bg-dark: #0a0a0a;
+    --bg-warm: #1a1410;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'EB Garamond', Georgia, serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ========== GLOBAL SECTION STYLING ========== */
+
+  section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .text-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+  }
+
+  .text-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .text-reveal-slow {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 2.5s ease, transform 2.5s ease;
+  }
+
+  .text-reveal-slow.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered children */
+  .stagger-children .text-reveal:nth-child(1) { transition-delay: 0s; }
+  .stagger-children .text-reveal:nth-child(2) { transition-delay: 0.4s; }
+  .stagger-children .text-reveal:nth-child(3) { transition-delay: 0.8s; }
+  .stagger-children .text-reveal:nth-child(4) { transition-delay: 1.2s; }
+  .stagger-children .text-reveal:nth-child(5) { transition-delay: 1.6s; }
+  .stagger-children .text-reveal:nth-child(6) { transition-delay: 2.0s; }
+
+  /* ========== SECTION 1: THE BLANK PAGE ========== */
+
+  #blank-page {
+    min-height: 200vh;
+    background: #000;
+    justify-content: flex-start;
+    padding-top: 40vh;
+  }
+
+  #blank-page .title {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10vh;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #blank-page .main-text {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.3;
+    text-align: center;
+    max-width: 800px;
+    font-style: italic;
+  }
+
+  #blank-page .sub-text {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: var(--text-dim);
+    margin-top: 8vh;
+    font-style: italic;
+  }
+
+  .cursor-blink {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--text-primary);
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* ========== SECTION 2: THE OVERWHELM ========== */
+
+  #overwhelm {
+    min-height: 150vh;
+    background: var(--bg-dark);
+    position: relative;
+  }
+
+  #overwhelm .intro-text {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    max-width: 700px;
+    margin-bottom: 15vh;
+    line-height: 1.5;
+  }
+
+  .word-flood {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .flood-word {
+    position: absolute;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    white-space: nowrap;
+  }
+
+  .flood-word.visible {
+    opacity: 1;
+    animation: drift 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(10px, -10px) rotate(1deg); }
+  }
+
+  #overwhelm .overwhelm-caption {
+    position: relative;
+    z-index: 2;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--text-dim);
+    font-style: italic;
+    text-align: center;
+    max-width: 500px;
+  }
+
+  /* ========== SECTION 3: THE PLATEAU ========== */
+
+  #plateau {
+    min-height: 250vh;
+    background: linear-gradient(to bottom, var(--bg-dark), #0d0d0d, #0d0d0d, var(--bg-dark));
+    justify-content: flex-start;
+    padding-top: 20vh;
+  }
+
+  #plateau .plateau-text {
+    font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+    text-align: center;
+    max-width: 750px;
+    line-height: 1.6;
+    margin-bottom: 30vh;
+  }
+
+  .ellipsis-animated span {
+    opacity: 0;
+    animation: ellipsis-appear 3s ease-in-out infinite;
+  }
+  .ellipsis-animated span:nth-child(1) { animation-delay: 0s; }
+  .ellipsis-animated span:nth-child(2) { animation-delay: 0.5s; }
+  .ellipsis-animated span:nth-child(3) { animation-delay: 1s; }
+
+  @keyframes ellipsis-appear {
+    0%, 100% { opacity: 0; }
+    30%, 70% { opacity: 1; }
+  }
+
+  #plateau .small-text {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--text-dim);
+    text-align: center;
+    max-width: 600px;
+    line-height: 2;
+    font-style: italic;
+  }
+
+  #plateau .days-counter {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 300;
+    color: #1a1a1a;
+    margin: 15vh 0;
+    letter-spacing: 0.05em;
+  }
+
+  #plateau .whisper {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: #3a3530;
+    font-style: italic;
+    text-align: center;
+    max-width: 500px;
+    line-height: 1.8;
+  }
+
+  /* ========== SECTION 4: THE CRACK ========== */
+
+  #the-crack {
+    min-height: 200vh;
+    background: var(--bg-dark);
+    justify-content: flex-start;
+    padding-top: 30vh;
+  }
+
+  .crack-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+  }
+
+  .crack-line {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 0;
+    background: linear-gradient(to bottom, transparent, var(--crack-gold), transparent);
+    transform: translateX(-50%);
+    transition: height 2s ease;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .crack-line.active {
+    height: 100vh;
+    opacity: 1;
+  }
+
+  #the-crack .crack-text {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    line-height: 1.6;
+    max-width: 700px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  #the-crack .crack-text em {
+    color: var(--crack-gold);
+    font-style: italic;
+  }
+
+  #the-crack .moment-text {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    color: var(--crack-gold);
+    margin: 15vh 0;
+    text-align: center;
+    text-shadow: 0 0 60px rgba(232, 197, 71, 0.3);
+  }
+
+  .light-burst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232, 197, 71, 0.15), transparent);
+    transform: translate(-50%, -50%);
+    transition: width 3s ease, height 3s ease;
+    pointer-events: none;
+  }
+
+  .light-burst.active {
+    width: 120vw;
+    height: 120vw;
+  }
+
+  /* ========== SECTION 5: THE QUIET AFTER ========== */
+
+  #quiet-after {
+    min-height: 180vh;
+    background: linear-gradient(to bottom, var(--bg-dark), var(--bg-warm));
+    justify-content: flex-start;
+    padding-top: 25vh;
+  }
+
+  #quiet-after .quiet-text {
+    font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.7;
+    margin-bottom: 8vh;
+  }
+
+  #quiet-after .quiet-small {
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    color: var(--warmth);
+    text-align: center;
+    max-width: 550px;
+    line-height: 2;
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  .breath-spacer {
+    height: 30vh;
+  }
+
+  /* ========== SECTION 6: THE PASSING ON ========== */
+
+  #passing-on {
+    min-height: 150vh;
+    background: var(--bg-warm);
+    padding-bottom: 15vh;
+  }
+
+  #passing-on .passing-text {
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    text-align: center;
+    max-width: 650px;
+    line-height: 1.8;
+    margin-bottom: 8vh;
+    color: var(--light);
+  }
+
+  #passing-on .final-words {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-style: italic;
+    color: var(--warmth);
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.4;
+    margin: 10vh 0;
+  }
+
+  #passing-on .attribution {
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: var(--text-dim);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    margin-top: 10vh;
+  }
+
+  /* ========== SCROLL PROGRESS ========== */
+
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--text-dim), var(--warmth), var(--crack-gold));
+    z-index: 100;
+    transition: width 0.1s linear;
+  }
+
+  /* ========== RESPONSIVE ========== */
+
+  @media (max-width: 768px) {
+    section {
+      padding: 3rem 1.5rem;
+    }
+
+    #plateau {
+      min-height: 200vh;
+    }
+  }
+
+  /* ========== FADE TRANSITION FOR BG ========== */
+
+  .bg-transition {
+    transition: background-color 2s ease;
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="crack-line" id="crackLine"></div>
+
+<!-- ====== SECTION 1: THE BLANK PAGE ====== -->
+<section id="blank-page" class="stagger-children">
+  <div class="title text-reveal">The Weight of What You Learned</div>
+  <div class="main-text text-reveal">
+    You didn't know<br>what you didn't know.<span class="cursor-blink"></span>
+  </div>
+  <div class="sub-text text-reveal">
+    And the page was so, so empty.
+  </div>
+</section>
+
+<!-- ====== SECTION 2: THE OVERWHELM ====== -->
+<section id="overwhelm">
+  <div class="intro-text text-reveal">
+    Then everything came at once.
+  </div>
+  <div class="word-flood" id="wordFlood"></div>
+  <div class="overwhelm-caption text-reveal-slow">
+    Too much. Too fast.<br>
+    You couldn't hold it all.<br>
+    No one told you that was normal.
+  </div>
+</section>
+
+<!-- ====== SECTION 3: THE PLATEAU ====== -->
+<section id="plateau" class="stagger-children">
+  <div class="plateau-text text-reveal">
+    You practiced.<br>
+    And nothing changed.
+  </div>
+  <div class="days-counter text-reveal" id="daysCounter">day 1</div>
+  <div class="small-text text-reveal">
+    You did the same thing yesterday.<br>
+    You'll do it again tomorrow.<br>
+    The progress you were promised<br>
+    doesn't seem to know your name.
+  </div>
+  <div class="breath-spacer"></div>
+  <div class="whisper text-reveal-slow">
+    You wondered if you were broken<span class="ellipsis-animated"><span>.</span><span>.</span><span>.</span></span><br><br>
+    if everyone else got a manual<br>
+    that you somehow missed.
+  </div>
+</section>
+
+<!-- ====== SECTION 4: THE CRACK ====== -->
+<section id="the-crack">
+  <div class="crack-container">
+    <div class="light-burst" id="lightBurst"></div>
+    <div class="crack-text text-reveal">
+      And then—<br><br>
+      not with thunder,<br>
+      not with applause,<br><br>
+      but in a quiet moment<br>
+      when you weren't even trying—
+    </div>
+    <div class="moment-text text-reveal-slow">
+      it clicked.
+    </div>
+    <div class="crack-text text-reveal-slow" style="margin-top: 10vh;">
+      Not everything. Not perfectly.<br><br>
+      But enough.<br>
+      <em>Enough</em> to know<br>
+      you weren't broken after all.
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 5: THE QUIET AFTER ====== -->
+<section id="quiet-after" class="stagger-children">
+  <div class="quiet-text text-reveal">
+    You couldn't explain<br>what changed.
+  </div>
+  <div class="breath-spacer"></div>
+  <div class="quiet-text text-reveal">
+    But your hands knew.<br>
+    Your instincts knew.
+  </div>
+  <div class="breath-spacer"></div>
+  <div class="quiet-small text-reveal-slow">
+    The knowledge didn't arrive like a download.<br>
+    It arrived like a season—<br>
+    you couldn't point to the day<br>
+    winter became spring.
+  </div>
+  <div class="breath-spacer"></div>
+  <div class="quiet-text text-reveal">
+    But you were different now.
+  </div>
+</section>
+
+<!-- ====== SECTION 6: THE PASSING ON ====== -->
+<section id="passing-on" class="stagger-children">
+  <div class="passing-text text-reveal">
+    Someday someone will sit<br>
+    where you sat.
+  </div>
+  <div class="passing-text text-reveal">
+    Staring at the blank page.<br>
+    Drowning in the flood.<br>
+    Practicing with no proof<br>
+    it's working.
+  </div>
+  <div class="passing-text text-reveal">
+    And they will look at you—<br>
+    terrified, uncertain—
+  </div>
+  <div class="final-words text-reveal-slow">
+    and you will say:<br><br>
+    "I know. I know.<br>
+    Keep going."
+  </div>
+  <div class="attribution text-reveal-slow">
+    — for everyone who learned something the hard way
+  </div>
+</section>
+
+<script>
+(function() {
+  // ========== INTERSECTION OBSERVER FOR TEXT REVEALS ==========
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  document.querySelectorAll('.text-reveal, .text-reveal-slow').forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  // ========== SCROLL PROGRESS BAR ==========
+  const progressBar = document.getElementById('scrollProgress');
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = progress + '%';
+  }
+
+  // ========== WORD FLOOD (THE OVERWHELM) ==========
+  const floodWords = [
+    'syntax', 'variables', 'functions', 'recursion', 'polymorphism',
+    'abstraction', 'inheritance', 'scope', 'closure', 'callback',
+    'promise', 'async', 'await', 'prototype', 'immutability',
+    'state', 'side effects', 'pure functions', 'dependency injection',
+    'design patterns', 'Big O', 'algorithms', 'data structures',
+    'binary trees', 'hash maps', 'linked lists', 'graph theory',
+    'normalization', 'REST', 'GraphQL', 'middleware', 'authentication',
+    'authorization', 'encryption', 'hashing', 'salting', 'tokens',
+    'sessions', 'cookies', 'CORS', 'DNS', 'TCP/IP', 'HTTP',
+    'websockets', 'caching', 'indexing', 'sharding', 'replication',
+    'containerization', 'orchestration', 'CI/CD', 'testing',
+    'unit tests', 'integration', 'mocking', 'stubbing', 'coverage',
+    'refactoring', 'technical debt', 'code review', 'pair programming',
+    'agile', 'sprint', 'retrospective', 'deployment', 'monitoring',
+    'observability', 'logging', 'tracing', 'metrics', 'SLA',
+    'scalability', 'resilience', 'fault tolerance', 'idempotency',
+    'eventual consistency', 'CAP theorem', 'microservices', 'monolith',
+    'serverless', 'edge computing', 'machine learning', 'neural networks',
+    'gradient descent', 'backpropagation', 'overfitting', 'regularization',
+    'types', 'interfaces', 'generics', 'annotations', 'reflection',
+    'concurrency', 'parallelism', 'deadlock', 'race condition', 'mutex',
+    'semaphore', 'garbage collection', 'memory management', 'pointers',
+    'references', 'stack', 'heap', 'compilation', 'interpretation',
+    'lexing', 'parsing', 'AST', 'bytecode', 'JIT', 'AOT'
+  ];
+
+  const floodContainer = document.getElementById('wordFlood');
+  const createdWords = [];
+
+  function createFloodWords() {
+    floodWords.forEach((word, i) => {
+      const el = document.createElement('span');
+      el.className = 'flood-word';
+      el.textContent = word;
+      el.style.left = Math.random() * 85 + 5 + '%';
+      el.style.top = Math.random() * 80 + 10 + '%';
+      el.style.fontSize = (Math.random() * 1.2 + 0.6) + 'rem';
+      el.style.color = `hsl(${30 + Math.random() * 20}, ${10 + Math.random() * 15}%, ${20 + Math.random() * 30}%)`;
+      el.style.animationDelay = (Math.random() * 4) + 's';
+      el.style.animationDuration = (5 + Math.random() * 6) + 's';
+      floodContainer.appendChild(el);
+      createdWords.push(el);
+    });
+  }
+
+  createFloodWords();
+
+  const overwhelmSection = document.getElementById('overwhelm');
+  let floodTriggered = false;
+
+  const floodObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !floodTriggered) {
+        floodTriggered = true;
+        createdWords.forEach((el, i) => {
+          setTimeout(() => {
+            el.classList.add('visible');
+          }, i * 30);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  floodObserver.observe(overwhelmSection);
+
+  // ========== DAYS COUNTER (THE PLATEAU) ==========
+  const daysCounter = document.getElementById('daysCounter');
+  let lastDay = 0;
+
+  function updateDaysCounter() {
+    const plateauSection = document.getElementById('plateau');
+    const rect = plateauSection.getBoundingClientRect();
+    const sectionHeight = plateauSection.offsetHeight;
+    const scrolledInSection = -rect.top;
+    const progress = Math.max(0, Math.min(1, scrolledInSection / (sectionHeight - window.innerHeight)));
+
+    const day = Math.floor(progress * 365) + 1;
+    if (day !== lastDay && day >= 1 && day <= 365) {
+      lastDay = day;
+      daysCounter.textContent = 'day ' + day;
+    }
+  }
+
+  // ========== THE CRACK (GOLDEN LINE) ==========
+  const crackLine = document.getElementById('crackLine');
+  const lightBurst = document.getElementById('lightBurst');
+  const crackSection = document.getElementById('the-crack');
+
+  const crackObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          crackLine.classList.add('active');
+        }, 800);
+        setTimeout(() => {
+          lightBurst.classList.add('active');
+        }, 2000);
+      } else {
+        crackLine.classList.remove('active');
+        lightBurst.classList.remove('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  crackObserver.observe(crackSection);
+
+  // ========== COMBINED SCROLL HANDLER ==========
+  let ticking = false;
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateProgress();
+        updateDaysCounter();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Initial call
+  updateProgress();
+})();
+</script>
+
+</body>
+</html>
